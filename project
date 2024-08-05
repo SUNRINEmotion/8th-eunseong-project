@@ -1,13 +1,15 @@
+#라이브러리들을 불러오고 데이터세트를 저장
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 from google.colab import files
 files.upload()
-
 galtondata = pd.read_csv("GaltonFamilies.csv")
 galtondata
 
+
+#부모의 평균 키와 자식의 키의 관게를 산점도로 시각화한 그래프
 galtondata['midparheightCm'] = galtondata['midparentHeight']*2.54
 galtondata['childheightCm'] = galtondata['childHeight']*2.54
 
@@ -28,6 +30,8 @@ plt.grid(alpha = 0.6)
 plt.legend(title = 'gender', framealpha=0)
 plt.show()
 
+
+#부모와 자식의 키 차이를 커널 밀도 그래프로 시각화한 그래프
 galtondata['difheight'] = galtondata['childheightCm'] - galtondata['midparheightCm']
 
 sns.kdeplot(x = 'difheight', data = galtondata,hue = 'gender',
