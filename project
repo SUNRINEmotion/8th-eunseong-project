@@ -1,0 +1,40 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+from google.colab import files
+files.upload()
+
+galtondata = pd.read_csv("GaltonFamilies.csv")
+galtondata
+
+galtondata['midparheightCm'] = galtondata['midparentHeight']*2.54
+galtondata['childheightCm'] = galtondata['childHeight']*2.54
+
+sns.scatterplot(x = 'midparheightCm', y = 'childheightCm', data = galtondata,
+                hue = 'gender',
+                alpha=0.7,
+                edgecolor='k',
+                linewidth=0.5,
+                s = 50,
+                style='gender',
+                markers=['o', 'H'],
+                palette = {'male': "dodgerblue", "female": "orangered"},
+                )
+plt.xlabel('Parent Height (cm)')
+plt.ylabel('Child Height (cm)')
+plt.title("the heredity of height")
+plt.grid(alpha = 0.6)
+plt.legend(title = 'gender', framealpha=0)
+plt.show()
+
+galtondata['difheight'] = galtondata['childheightCm'] - galtondata['midparheightCm']
+
+sns.kdeplot(x = 'difheight', data = galtondata,hue = 'gender',
+            palette = {'male': "dodgerblue", "female": "orangered"},
+            linewidth = 2,
+            )
+plt.grid()
+plt.xlabel("height difference")
+plt.title("height difference between parent and children")
+plt.show()
